@@ -54,4 +54,7 @@ class User
     user.save
   end
   
+  def total_size
+    self.cdrs.map(&:size).inject(&:+)
+  end
 end

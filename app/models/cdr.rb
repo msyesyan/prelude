@@ -5,8 +5,8 @@ class Cdr
   field :dportal, type: String
   field :ip_saddr, type: String
   field :ip_daddr, type: String
-  field :size, type: String
-  field :last_pcap_time, type: Time
+  field :size, type: Integer
+  field :last_pcap_time, type: String
   
   def self.add_cdr
     file_path = "/Users/gxw/Documents/fils/log/"
@@ -22,7 +22,7 @@ class Cdr
     cdr = Cdr.last
     last_pcap_time = Cdr.contruct_the_time(cdr.last_pcap_time) if cdr
     Cdr.foreach_files(file_path) do |file|
-      next if last_pcap_time && last_pcap_time.to_time > Cdr.contruct_the_time(file).to_time
+      next if last_pcap_time && last_pcap_time.to_time >= Cdr.contruct_the_time(file).to_time
       Cdr.insert_cdr(file_path, file)
     end
   end
@@ -45,7 +45,7 @@ class Cdr
                   :dportal        => packet.send(current_proto + "_dst"),
                   :ip_saddr       => packet.ip_saddr,
                   :ip_daddr       => packet.ip_daddr,
-                  :size           => packet.size,
+                  :size           => packet.size.to_i,
                   :user           => user,
                   :last_pcap_time => file_name
         )
