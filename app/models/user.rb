@@ -16,9 +16,9 @@ class User
   
   field :role, :type => String, :default => "banned"
   field :domain, :type => String, :default => ""
-  field :port, :type => Integer, :default => ""
+  field :portal, :type => Integer, :default => ""
   
-  validates :login, :port, :uniqueness => true
+  validates :login, :portal, :uniqueness => true
    
   ## Recoverable
   field :reset_password_token,   :type => String
@@ -33,7 +33,7 @@ class User
   field :last_sign_in_at,    :type => Time
   field :current_sign_in_ip, :type => String
   field :last_sign_in_ip,    :type => String
-
+  has_many :cdrs
   ## Confirmable
   # field :confirmation_token,   :type => String
   # field :confirmed_at,         :type => Time
@@ -50,7 +50,7 @@ class User
   
   after_create do |user|
     user.domain = "#{user.login}.p.wido.me"
-    user.port = rand(10000) + 20000
+    user.portal = rand(10000) + 20000
     user.save
   end
   

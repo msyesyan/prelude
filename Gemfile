@@ -10,6 +10,7 @@ gem 'bootstrap-kaminari-views'
 gem 'simple_form'
 gem 'cancan'
 gem 'pry'
+gem 'packetfu', '1.1.6'
 
 group :development do
   gem 'thin'
