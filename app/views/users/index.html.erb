@@ -7,6 +7,7 @@
 		<tr>
 			<td><%= user.email %></td>
 			<td>
+				<%= link_to "流量", user_statistics_path(user) %>
 				<%= link_to "维护", user_path(user, :ok_url => request.url) %>
 				<%= link_to "删除", user_path(user), :method => :delete, :confirm => "确定删除该用户?" %>
 			</td>

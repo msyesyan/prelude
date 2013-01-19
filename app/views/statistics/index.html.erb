@@ -1,0 +1,18 @@
+<table class="table table-striped">
+	<tr>
+		<td>年</td><td>月</td><td>流量</td><td>操作</td>
+	</tr>
+	<% @statistics.each do |statistic| %>
+	<tr>
+		<td><%= statistic.year %></td>
+		<td><%= statistic.month %></td>
+		<td><%= network_size(statistic.size) %></td>
+		<td>
+		</td>
+	</tr>
+	<% end %>
+</table>
+
+<nav>
+	<%= paginate(@statistics, :theme => 'twitter-bootstrap') if !@statistics.empty? %>
+</nav>

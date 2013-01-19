@@ -34,6 +34,7 @@ class User
   field :current_sign_in_ip, :type => String
   field :last_sign_in_ip,    :type => String
   has_many :cdrs
+  has_many :statistics
   ## Confirmable
   # field :confirmation_token,   :type => String
   # field :confirmed_at,         :type => Time
@@ -57,4 +58,20 @@ class User
   def total_size
     self.cdrs.map(&:size).inject(&:+)
   end
+  
+  def find_or_initial_this_month_statistic(&block)
+    statistic = self.statistics.where(:year => Time.now.year, :month => Time.now.month).first || self.statistics.new
+    yield(statistic) if block
+    statistic
+  end
+  
+  def find_all_this_month_cdrs
+    cdrs = self.cdrs.where(:created_at => Time.now.beginning_of_month..Time.now.end_of_month.end_of_day).all
+  end
+  
+  def this_moth_total_size
+    cdrs = self.find_all_this_month_cdrs
+    size = cdrs.map(&:size).inject(&:+)
+  end
+  
 end

@@ -3,6 +3,8 @@ Prelude::Application.routes.draw do
   
   root :to => 'users#index'
 
-  resources :users
-
+  resources :users do
+    resources :statistics
+    resources :cdrs
+  end
 end

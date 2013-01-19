@@ -7,6 +7,7 @@ class Cdr
   field :ip_daddr, type: String
   field :size, type: Integer
   field :last_pcap_time, type: String
+  field :created_at, type: Time
   
   def self.add_cdr
     file_path = "/Users/gxw/Documents/fils/log/"
@@ -37,7 +38,6 @@ class Cdr
       next if current_proto == "arp" || current_proto == "ipv6" || !packet.respond_to?(current_proto + "_src")
 
       user_portal = (packet.ip_saddr == server_ip) ? packet.send(current_proto + "_src") : packet.send(current_proto + "_dst")
-      puts user_portal
       user = User.where(:portal => user_portal).first
       next if user.nil?
      
@@ -47,7 +47,8 @@ class Cdr
                   :ip_daddr       => packet.ip_daddr,
                   :size           => packet.size.to_i,
                   :user           => user,
-                  :last_pcap_time => file_name
+                  :last_pcap_time => file_name,
+                  :created_at     => Time.now
         )
     end
   
