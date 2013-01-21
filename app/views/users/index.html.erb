@@ -24,8 +24,13 @@
 			<td>用户信息</td><td>编辑</td>
 		</tr>
 		<tr>
-			<td><%= current_user.email%></td>
-			<td><%= link_to "修改密码", edit_user_path(current_user, :ok_url => request.url) %></td>
+			<td>
+				<%= current_user.email%>
+			</td>
+			<td>
+				<%= link_to "流量", user_statistics_path(user) %>
+				<%= link_to "修改密码", edit_user_path(current_user, :ok_url => request.url) %>
+			</td>
 		</tr>
 	</table>
 <% end %>
