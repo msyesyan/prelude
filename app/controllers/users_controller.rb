@@ -14,7 +14,6 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     params[:user][:portal] = rand(10000) + 20000 if can? :manage, :all
-    binding.pry
     if @user.update_attributes(params[:user])
       flash[:notice] = 'User was successfully updated.'
       redirect_to_ok_url_or_default(root_url)
