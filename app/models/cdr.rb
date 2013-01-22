@@ -1,6 +1,9 @@
 class Cdr
   include Mongoid::Document
+  include Mongoid::Search
+
   belongs_to :user
+
   field :sportal, type: String
   field :dportal, type: String
   field :ip_saddr, type: String
@@ -10,7 +13,7 @@ class Cdr
   field :created_at, type: Time
   
   def self.add_cdr
-    file_path = "/Users/gxw/Documents/fils/log/"
+    file_path = "/home/msyesyan/Documents/log/"
     #to delete the file where created_at is a week ago
     Cdr.foreach_files(file_path) do |file|
       if Cdr.contruct_the_time(file).to_time < Time.now.ago(1.week)
@@ -29,17 +32,19 @@ class Cdr
   end
   
   def self.insert_cdr(file_path, file_name)
-    server_ip = "192.168.37.88"
+    server_ip = "192.168.37.130"
     
     PacketFu::PcapFile.read_packets(file_path + file_name) do |packet|
       current_proto = packet.protocol.last.downcase;
       #exclude ipv6 and arp
-      puts "---------#{current_proto}------"
+      # puts "---------#{current_proto}------"
       next if current_proto == "arp" || current_proto == "ipv6" || !packet.respond_to?(current_proto + "_src")
 
       user_portal = (packet.ip_saddr == server_ip) ? packet.send(current_proto + "_src") : packet.send(current_proto + "_dst")
+      puts "user_portal:#{user_portal}"
       user = User.where(:portal => user_portal).first
       next if user.nil?
+      puts "useremail:#{user.email}"
      
       Cdr.create!(:sportal        => packet.send(current_proto + "_src"),
                   :dportal        => packet.send(current_proto + "_dst"),

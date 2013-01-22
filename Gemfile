@@ -9,13 +9,15 @@ gem 'kaminari'
 gem 'bootstrap-kaminari-views'
 gem 'simple_form'
 gem 'cancan'
-gem 'pry'
 gem 'packetfu', '1.1.6'
+gem 'whenever'
+gem 'mongoid_search'
 
 group :development do
   gem 'thin'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'pry'
 end
 
 
