@@ -1,6 +1,6 @@
 Mongoid::Search.setup do |config|
   ## Default matching type. Match :any or :all searched keywords
-  config.match = :any
+  config.match = :all
 
   ## If true, an empty search will return all objects
   config.allow_empty_search = false
@@ -30,7 +30,7 @@ Mongoid::Search.setup do |config|
   ## Regex to search
 
   ## Match partial words on both sides (slower)
-  config.regex = Proc.new { |query| /#{query}/ }
+  config.regex = Proc.new { |query| /^#{query}$/ }
 
   ## Match partial words on the beginning or in the end (slightly faster)
   # config.regex = Proc.new { |query| /ˆ#{query}/ }
@@ -41,5 +41,5 @@ Mongoid::Search.setup do |config|
   # config.ligatures = { "œ"=>"oe", "æ"=>"ae" }
 
   # Minimum word size. Words smaller than it won't be indexed
-  config.minimum_word_size = 2
+  config.minimum_word_size = 1
 end

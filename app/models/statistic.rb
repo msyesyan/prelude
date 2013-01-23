@@ -9,6 +9,8 @@ class Statistic
   field :day, type: Integer
   field :size, type: Integer
   
+  search_in :year, :month, :day
+  
   def self.add_statistic
     User.each do |user|
       statistic = user.find_or_initial_day_statistic do |statistic|
